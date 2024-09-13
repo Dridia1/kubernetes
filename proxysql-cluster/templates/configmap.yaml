@@ -2,8 +2,16 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-proxysqlcm
-data: 
+data:
   proxysql.cnf: |
-{{ tpl (.Files.Get "files/proxysql.cnf") . | indent 4 }}
+{{- if .Values.proxysqlConfig }}
+{{ "\n" }}{{- tpl .Values.proxysqlConfig . | indent 4 }}
+{{- else }}
+{{- tpl (.Files.Get "files/proxysql.cnf") . | indent 4 }}
+{{- end }}
   probe-proxysql.bash: |
+{{- if .Values.probeProxysqlBash }}
+{{ "\n" }}{{- tpl .Values.probeProxysqlBash . | indent 4 }}
+{{- else }}
 {{ tpl (.Files.Get "files/probe-proxysql.bash") . | indent 4 }}
+{{- end }}
