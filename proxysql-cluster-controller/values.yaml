@@ -17,6 +17,10 @@ service:
   type: ClusterIP
   port: 6032
 
+# Disable this if a configmap is created elsewhere
+configmap:
+  enabled: true
+
 ingress:
   enabled: false
   annotations: {}
